@@ -1,0 +1,20 @@
+language: cpp
+sudo: false
+
+install:
+  - curl http://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  - chmod a+x ~/bin/repo
+  - repo init -u git://github.com/SlimRoms/platform_manifest.git -b lp5.1
+  - repo sync
+  - ./build/envsetup.sh
+  - git clone git://github.com/TheLoonyBin/proprietary_vendor_motorola.git vendor/motorola
+
+script:
+  - lunch slim_ghost -userdebug
+  - make -j1 bacon
+
+deploy:
+  provider: release
+  on:
+    tags: true
+
